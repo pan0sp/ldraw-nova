@@ -64,6 +64,26 @@ To stop it:
 docker compose down
 ```
 
+### Without Docker: command-line toolkit only
+
+If you only want the agent tooling (part search, build, validate, render) on macOS or Linux, without the web app:
+
+```bash
+git clone https://github.com/anteloc/ldraw-nova.git
+cd ldraw-nova
+scripts/bootstrap.sh
+```
+
+It installs `pdftotext` and LeoCAD (with Homebrew or apt), downloads the [LDraw parts library](https://library.ldraw.org/) to `~/ldraw-lib`, installs the Python packages, indexes the library and adds `LDRAW_DIR` to your shell profile. Run `scripts/bootstrap.sh --help` for options. Open a new terminal afterwards, then try:
+
+```bash
+./ldraw-agent search parts "brick 2 x 4" --limit 3
+./ldraw-agent build examples/copper-bean/copper-bean.plan.json --output output/copper-bean.mpd
+./ldraw-agent render output/copper-bean.mpd --outdir output/review    # prefix with xvfb-run -a on a server with no display
+```
+
+For a Claude Code cloud environment, paste [scripts/cloud-setup.sh](scripts/cloud-setup.sh) into the environment's setup script.
+
 ## Why all of this?
 
 Well, to summarize: I did this in order to get **agentic LLMs capable of designing buildable, physical things!**
